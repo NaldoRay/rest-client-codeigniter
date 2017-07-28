@@ -14,7 +14,12 @@ class Web_service
 	}
 	
 	
-	public function getDummies ()
+	public function getStubs ()
+	{
+		return $this-get('stubs');
+	}
+	
+	public function getResources ()
 	{
 		try
 		{
@@ -26,6 +31,86 @@ class Web_service
 			return $this->getErrorData($e);
 		}
 	}
+	
+	/**
+     * @param $uri
+     * @param array $params
+     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @throws LogicException
+     * @throws WebException
+     */
+    public function get ($uri, array $params = null)
+    {
+        try
+        {
+            $response = $this->webClient->get($uri, $params);
+            return $this->getResponseData($response);
+        }
+        catch (WebException $e)
+        {
+            return $this->getErrorData($e);
+        }
+    }
+
+    /**
+     * @param $uri
+     * @param array|null $params
+     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @throws LogicException
+     * @throws WebException
+     */
+    public function post ($uri, array $params = null)
+    {
+        try
+        {
+            $response = $this->webClient->post($uri, $params);
+            return $this->getResponseData($response);
+        }
+        catch (WebException $e)
+        {
+            return $this->getErrorData($e);
+        }
+    }
+
+    /**
+     * @param $uri
+     * @param array|null $params
+     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @throws LogicException
+     * @throws WebException
+     */
+    public function patch ($uri, array $params = null)
+    {
+        try
+        {
+            $response = $this->webClient->patch($uri, $params);
+            return $this->getResponseData($response);
+        }
+        catch (WebException $e)
+        {
+            return $this->getErrorData($e);
+        }
+    }
+
+    /**
+     * @param $uri
+     * @param array|null $params
+     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @throws LogicException
+     * @throws WebException
+     */
+    public function delete ($uri, array $params = null)
+    {
+        try
+        {
+            $response = $this->webClient->delete($uri, $params);
+            return $this->getResponseData($response);
+        }
+        catch (WebException $e)
+        {
+            return $this->getErrorData($e);
+        }
+    }
 	
 	
 	private function getResponseData (WebResponse $response)
