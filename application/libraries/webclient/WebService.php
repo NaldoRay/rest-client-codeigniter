@@ -1,37 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once 'webclient/WebClient.php';
+require_once 'WebClient.php';
 
 
-class Web_service
+class WebService
 {
 	private $webClient;
 	
-	public function __construct ()
+	public function __construct ($baseUrl)
 	{
-		$this->webClient = new WebClient('http://localhost/');
+		$this->webClient = new WebClient($baseUrl);
 	}
-	
-	
-	public function getStubs ()
-	{
-		return $this-get('stubs');
-	}
-	
-	public function getResources ()
-	{
-		try
-		{
-			$response = $this->webClient->get('resources');
-			return $this->getResponseData($response);
-		}
-		catch (WebException $e)
-		{
-			return $this->getErrorData($e);
-		}
-	}
-	
+
 	/**
      * @param $uri
      * @param array $params
@@ -39,7 +19,7 @@ class Web_service
      * @throws LogicException
      * @throws WebException
      */
-    public function get ($uri, array $params = null)
+    public function get ($uri = '', array $params = null)
     {
         try
         {
@@ -59,7 +39,7 @@ class Web_service
      * @throws LogicException
      * @throws WebException
      */
-    public function post ($uri, array $params = null)
+    public function post ($uri = '', array $params = null)
     {
         try
         {
@@ -79,7 +59,7 @@ class Web_service
      * @throws LogicException
      * @throws WebException
      */
-    public function patch ($uri, array $params = null)
+    public function patch ($uri = '', array $params = null)
     {
         try
         {
@@ -99,7 +79,7 @@ class Web_service
      * @throws LogicException
      * @throws WebException
      */
-    public function delete ($uri, array $params = null)
+    public function delete ($uri = '', array $params = null)
     {
         try
         {
@@ -128,4 +108,3 @@ class Web_service
 	}
 }
 
-?>

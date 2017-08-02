@@ -53,12 +53,6 @@ class WebClient
         return $this;
     }
 
-    public function setAcceptLanguageToIndonesian ()
-    {
-        $this->acceptLanguage('id');
-        return $this;
-    }
-
     public function acceptLanguage ($language)
     {
         $this->language = $language;
@@ -66,61 +60,61 @@ class WebClient
     }
 
     /**
-     * @param $uri
+     * @param string $uri
      * @param array $params
      * @return WebResponse
      * @throws LogicException
      * @throws WebException
      */
-    public function get ($uri, array $params = null)
+    public function get ($uri = '', array $params = null)
     {
         return $this->request('GET', $uri, $params);
     }
 
     /**
-     * @param $uri
+     * @param string $uri
      * @param array|null $params
      * @return WebResponse
      * @throws LogicException
      * @throws WebException
      */
-    public function post ($uri, array $params = null)
+    public function post ($uri = '', array $params = null)
     {
         return $this->request('POST', $uri, $params);
     }
 
     /**
-     * @param $uri
+     * @param string $uri
      * @param array|null $params
      * @return WebResponse
      * @throws LogicException
      * @throws WebException
      */
-    public function patch ($uri, array $params = null)
+    public function patch ($uri = '', array $params = null)
     {
         return $this->request('PATCH', $uri, $params);
     }
 
     /**
-     * @param $uri
+     * @param string $uri
      * @param array|null $params
      * @return WebResponse
      * @throws LogicException
      * @throws WebException
      */
-    public function put ($uri, array $params = null)
+    public function put ($uri = '', array $params = null)
     {
         return $this->request('PUT', $uri, $params);
     }
 
     /**
-     * @param $uri
+     * @param string $uri
      * @param array|null $params
      * @return WebResponse
      * @throws LogicException
      * @throws WebException
      */
-    public function delete ($uri, array $params = null)
+    public function delete ($uri = '', array $params = null)
     {
         return $this->request('DELETE', $uri, $params);
     }

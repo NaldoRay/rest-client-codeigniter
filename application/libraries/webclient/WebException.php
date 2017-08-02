@@ -1,7 +1,7 @@
 <?php
 
-
 require_once 'WebResponse.php';
+
 /**
  * User: RN
  * Date: 5/24/2017
