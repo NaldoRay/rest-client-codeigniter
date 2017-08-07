@@ -97,13 +97,19 @@ class WebService
 	{
 		$body = $response->getBody();
 		$body->success = true;
+		$body->statusCode = $response->getStatusCode();
+
 		return $body;
 	}
 	
 	private function getErrorData (WebException $e)
 	{
-		$body = $e->getResponse()->getBody();
+        $response = $e->getResponse();
+
+		$body = $response->getBody();
 		$body->success = false;
+        $body->statusCode = $response->getStatusCode();
+
 		return $body;
 	}
 }
