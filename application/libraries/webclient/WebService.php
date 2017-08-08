@@ -17,7 +17,6 @@ class WebService
      * @param array $params
      * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
      * @throws LogicException
-     * @throws WebException
      */
     public function get ($uri = '', array $params = null)
     {
@@ -37,7 +36,6 @@ class WebService
      * @param array|null $params
      * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
      * @throws LogicException
-     * @throws WebException
      */
     public function post ($uri = '', array $params = null)
     {
@@ -57,7 +55,6 @@ class WebService
      * @param array|null $params
      * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
      * @throws LogicException
-     * @throws WebException
      */
     public function patch ($uri = '', array $params = null)
     {
@@ -77,7 +74,6 @@ class WebService
      * @param array|null $params
      * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
      * @throws LogicException
-     * @throws WebException
      */
     public function delete ($uri = '', array $params = null)
     {
@@ -96,6 +92,10 @@ class WebService
 	private function getResponseData (WebResponse $response)
 	{
 		$body = $response->getBody();
+		if (is_null($body))
+        {
+            $body = new stdClass();
+        }
 		$body->success = true;
 		$body->statusCode = $response->getStatusCode();
 
@@ -107,6 +107,10 @@ class WebService
         $response = $e->getResponse();
 
 		$body = $response->getBody();
+        if (is_null($body))
+        {
+            $body = new stdClass();
+        }
 		$body->success = false;
         $body->statusCode = $response->getStatusCode();
 
