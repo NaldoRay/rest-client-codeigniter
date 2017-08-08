@@ -96,6 +96,10 @@ class WebService
 	private function getResponseData (WebResponse $response)
 	{
 		$body = $response->getBody();
+		if (is_null($body))
+        {
+            $body = new stdClass();
+        }
 		$body->success = true;
 		$body->statusCode = $response->getStatusCode();
 
@@ -107,6 +111,10 @@ class WebService
         $response = $e->getResponse();
 
 		$body = $response->getBody();
+        if (is_null($body))
+        {
+            $body = new stdClass();
+        }
 		$body->success = false;
         $body->statusCode = $response->getStatusCode();
 
