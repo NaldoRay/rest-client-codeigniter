@@ -23,11 +23,11 @@ class WebService
         try
         {
             $response = $this->webClient->get($uri, $params);
-            return $this->getResponseData($response);
+            return $this->getResponseBody($response);
         }
         catch (WebException $e)
         {
-            return $this->getErrorData($e);
+            return $this->getErrorBody($e);
         }
     }
 
@@ -42,11 +42,11 @@ class WebService
         try
         {
             $response = $this->webClient->post($uri, $params);
-            return $this->getResponseData($response);
+            return $this->getResponseBody($response);
         }
         catch (WebException $e)
         {
-            return $this->getErrorData($e);
+            return $this->getErrorBody($e);
         }
     }
 
@@ -61,11 +61,11 @@ class WebService
         try
         {
             $response = $this->webClient->patch($uri, $params);
-            return $this->getResponseData($response);
+            return $this->getResponseBody($response);
         }
         catch (WebException $e)
         {
-            return $this->getErrorData($e);
+            return $this->getErrorBody($e);
         }
     }
 
@@ -80,21 +80,32 @@ class WebService
         try
         {
             $response = $this->webClient->delete($uri, $params);
-            return $this->getResponseData($response);
+            return $this->getResponseBody($response);
         }
         catch (WebException $e)
         {
-            return $this->getErrorData($e);
+            return $this->getErrorBody($e);
         }
     }
 
-    private function getErrorData (WebException $e)
+    private function getErrorBody (WebException $e)
     {
         $response = $e->getResponse();
-        return $this->getResponseData($response);
+
+        $body = $this->getResponseBody($response);
+        if (!$body->success && !isset($body->error))
+        {
+            $error = new stdClass();
+            $error->domain = '';
+            $error->message = '';
+
+            $body->error = $error;
+        }
+
+        return $body;
     }
 
-	private function getResponseData (WebResponse $response)
+	private function getResponseBody (WebResponse $response)
 	{
 		$body = $response->getBody();
 		if (is_null($body))
