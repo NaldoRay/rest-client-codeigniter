@@ -93,7 +93,7 @@ class WebService
         $response = $e->getResponse();
 
         $body = $this->getResponseBody($response);
-        if (!$body->success && !isset($body->error))
+        if (!isset($body->error))
         {
             $error = new stdClass();
             $error->domain = '';
