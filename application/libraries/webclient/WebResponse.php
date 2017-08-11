@@ -16,6 +16,12 @@ class WebResponse
         $this->response = $response;
     }
 
+    public function isSuccess ()
+    {
+        $statusCode = $this->getStatusCode();
+        return ($statusCode >= 200 && $statusCode <= 299);
+    }
+
     public function getStatusCode ()
     {
         if (is_null($this->response))

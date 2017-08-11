@@ -87,8 +87,13 @@ class WebService
             return $this->getErrorData($e);
         }
     }
-	
-	
+
+    private function getErrorData (WebException $e)
+    {
+        $response = $e->getResponse();
+        return $this->getResponseData($response);
+    }
+
 	private function getResponseData (WebResponse $response)
 	{
 		$body = $response->getBody();
@@ -96,23 +101,8 @@ class WebService
         {
             $body = new stdClass();
         }
-		$body->success = true;
+		$body->success = $response->isSuccess();
 		$body->statusCode = $response->getStatusCode();
-
-		return $body;
-	}
-	
-	private function getErrorData (WebException $e)
-	{
-        $response = $e->getResponse();
-
-		$body = $response->getBody();
-        if (is_null($body))
-        {
-            $body = new stdClass();
-        }
-		$body->success = false;
-        $body->statusCode = $response->getStatusCode();
 
 		return $body;
 	}
