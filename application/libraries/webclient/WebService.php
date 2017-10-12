@@ -12,6 +12,12 @@ class WebService
 		$this->webClient = new WebClient($baseUrl);
 	}
 
+	public function attachFile ($name, $filePath)
+    {
+        $this->webClient->attachFile($name, $filePath);
+        return $this;
+    }
+
 	/**
      * @param $uri
      * @param array $params

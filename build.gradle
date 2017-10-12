@@ -1,0 +1,10 @@
+def versionName = "1.2.5"
+
+task release (type: Zip) {
+	from '.'
+	include 'README.md'
+	include 'application/libraries/**'
+	include 'vendor/**'
+	archiveName 'rest-client-' + versionName + '.zip'
+	destinationDir file('release/')
+}

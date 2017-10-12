@@ -40,14 +40,19 @@ class WebClient
         return $this;
     }
 
-    public function attachFile ($name, $content)
+    /**
+     * @param string $name
+     * @param string $filePath
+     * @return $this
+     */
+    public function attachFile ($name, $filePath)
     {
         if (is_null($this->multipart))
             $this->multipart = array();
 
         $this->multipart[] = [
             'name' => $name,
-            'contents' => $content
+            'contents' => fopen($filePath, 'r')
         ];
 
         return $this;
