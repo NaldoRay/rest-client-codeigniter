@@ -27,13 +27,13 @@ class File_viewer
         $this->fileViewer->viewRemoteFile($fileUrl);
     }
 
-    public function downloadFile ($filePath)
+    public function downloadFile ($filePath, $renamedFilename)
     {
-        $this->fileViewer->downloadFile($filePath);
+        $this->fileViewer->downloadFile($filePath, $renamedFilename);
     }
 
-    public function downloadRemoteFile ($fileUrl)
+    public function downloadRemoteFile ($fileUrl, $renamedFilename)
     {
-        $this->fileViewer->downloadRemoteFile($fileUrl);
+        $this->fileViewer->downloadRemoteFile($fileUrl, $renamedFilename);
     }
 }
