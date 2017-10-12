@@ -3,35 +3,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class FileViewer
 {
+    private $tmpFile;
+
 	public function viewImage ($imagePath, $imageNotFoundPath = null)
 	{
-		$shown = $this->viewLocal($imagePath);
-		if (!$shown && !is_null($imageNotFoundPath))
+		$shown = $this->view($imagePath);
+		if (!$shown)
 		{
-			$this->viewLocal($imageNotFoundPath);
-		}
-		else
-		{
-			show_404();
+		    if (is_null($imageNotFoundPath))
+		        show_404();
+		    else
+			    $this->viewFile($imageNotFoundPath);
 		}
 	}
 
     public function viewRemoteImage ($imageUrl, $imageNotFoundPath = null)
     {
-        $shown = $this->view($imageUrl);
-        if (!$shown && !is_null($imageNotFoundPath))
+        $tmpFilePath = $this->createTemporaryRemoteFile($imageUrl);
+        $shown = $this->view($tmpFilePath);
+        if (!$shown)
         {
-            $this->viewLocal($imageNotFoundPath);
-        }
-        else
-        {
-            show_404();
+            if (is_null($imageNotFoundPath))
+                show_404();
+            else
+                $this->viewFile($imageNotFoundPath);
         }
     }
 
     public function viewFile ($filePath)
 	{
-		$shown = $this->viewLocal($filePath);
+		$shown = $this->view($filePath);
 		if (!$shown)
 		{
 			show_404();
@@ -40,7 +41,8 @@ class FileViewer
 
     public function viewRemoteFile ($fileUrl)
     {
-        $shown = $this->view($fileUrl);
+        $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
+        $shown = $this->view($tmpFilePath);
         if (!$shown)
         {
             show_404();
@@ -49,7 +51,7 @@ class FileViewer
 
     public function downloadFile ($filePath, $renamedFilename = null)
 	{
-		$shown = $this->downloadLocal($filePath, $renamedFilename);
+		$shown = $this->download($filePath, $renamedFilename);
 		if (!$shown)
 		{
 			show_404();
@@ -58,69 +60,72 @@ class FileViewer
 
     public function downloadRemoteFile ($fileUrl, $renamedFilename = null)
     {
-        $shown = $this->download($fileUrl, $renamedFilename);
+        $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
+        $shown = $this->download($tmpFilePath, $renamedFilename);
         if (!$shown)
         {
             show_404();
         }
     }
 
-    private function viewLocal ($filePath)
-	{		
-		if (is_file($filePath) && file_exists ($filePath))
-		{
-			return $this->view($filePath);
-		}
-		
-		return FALSE;
-	}
+    private function createTemporaryRemoteFile ($fileUrl)
+    {
+        $content = file_get_contents($fileUrl);
+        if ($content === false)
+            return null;
 
-    private function downloadLocal ($filePath, $renamedFilename)
-	{
-		if (is_file($filePath) && file_exists ($filePath))
-		{
-			return $this->download($filePath, $renamedFilename);
-		}
+        // automatically deleted when the script ends
+        $this->tmpFile = tmpfile();
+        fwrite($this->tmpFile, $content);
 
-		return FALSE;
-	}
+        $metaDatas = stream_get_meta_data($this->tmpFile);
+        return $metaDatas['uri'];
+    }
 
     private function view ($filePath)
     {
-        $info = new finfo(FILEINFO_MIME_TYPE);
-        $contentType = $info->file($filePath);
-        $fileSize = filesize($filePath);
+        if (is_file($filePath) && file_exists ($filePath))
+        {
+            $info = new finfo(FILEINFO_MIME_TYPE);
+            $contentType = $info->file($filePath);
+            $fileSize = filesize($filePath);
 
-        header('Content-type: ' . $contentType);
-        header('Content-length: ' . $fileSize);
-        // jangan di-cache
-        header('Cache-Control: no-cache, no-store, must-revalidate');
-        header('Expires: 0');
+            header('Content-type: ' . $contentType);
+            header('Content-length: ' . $fileSize);
+            // jangan di-cache
+            header('Cache-Control: no-cache, no-store, must-revalidate');
+            header('Expires: 0');
 
-        //Baca file dan kirim ke client.
-        $ret = readfile($filePath);
+            //Baca file dan kirim ke client.
+            $ret = readfile($filePath);
 
-        return ($ret !== false);
+            return ($ret !== false);
+        }
+        return false;
     }
 
     private function download ($filePath, $renamedFilename)
     {
-        $info = new finfo(FILEINFO_MIME_TYPE);
-        $contentType = $info->file($filePath);
-        $fileSize = filesize($filePath);
+        if (is_file($filePath) && file_exists ($filePath))
+        {
+            $info = new finfo(FILEINFO_MIME_TYPE);
+            $contentType = $info->file($filePath);
+            $fileSize = filesize($filePath);
 
-        header('Content-Type: '.$contentType);
-        header('Content-Disposition: attachment; filename="'.$renamedFilename.'"');
-        header('Content-Length: '.$fileSize);
-        // ga perlu di-cache
-        header('Cache-Control: no-cache, no-store, must-revalidate');
-        header('Expires: 0');
+            header('Content-Type: ' . $contentType);
+            header('Content-Disposition: attachment; filename="' . $renamedFilename . '"');
+            header('Content-Length: ' . $fileSize);
+            // ga perlu di-cache
+            header('Cache-Control: no-cache, no-store, must-revalidate');
+            header('Expires: 0');
 
-        // matiin output buffering buat ngehindarin masalah memory pas download file besar
-        //ob_end_clean();
+            // matiin output buffering buat ngehindarin masalah memory pas download file besar
+            //ob_end_clean();
 
-        $result = readfile($filePath);
+            $result = readfile($filePath);
 
-        return ($result !== false);
+            return ($result !== false);
+        }
+        return false;
     }
 }
