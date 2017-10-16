@@ -2,7 +2,11 @@
 
 require_once 'WebClient.php';
 
-
+/**
+ * User: Ray N
+ * Date: 8/2/2017
+ * Time: 08:19
+ */
 class WebService
 {
 	private $webClient;

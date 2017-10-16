@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Author: Ray N
+ * Date: 10/2/2017
+ * Time: 16:46
+ */
 class FileViewer
 {
     private $tmpFile;
@@ -30,19 +35,19 @@ class FileViewer
         }
     }
 
-    public function viewFile ($filePath)
+    public function viewFile ($filePath, $renamedFilename = null)
 	{
-		$shown = $this->view($filePath);
+		$shown = $this->view($filePath, $renamedFilename);
 		if (!$shown)
 		{
 			show_404();
 		}
 	}
 
-    public function viewRemoteFile ($fileUrl)
+    public function viewRemoteFile ($fileUrl, $renamedFilename = null)
     {
         $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
-        $shown = $this->view($tmpFilePath);
+        $shown = $this->view($tmpFilePath, $renamedFilename);
         if (!$shown)
         {
             show_404();
@@ -82,13 +87,16 @@ class FileViewer
         return $metaDatas['uri'];
     }
 
-    private function view ($filePath)
+    private function view ($filePath, $renamedFilename = null)
     {
         if (is_file($filePath) && file_exists ($filePath))
         {
             $info = new finfo(FILEINFO_MIME_TYPE);
             $contentType = $info->file($filePath);
             $fileSize = filesize($filePath);
+
+            if (!empty($renamedFilename))
+                header('Content-Disposition: inline; filename="'.$renamedFilename.'"');
 
             header('Content-type: ' . $contentType);
             header('Content-length: ' . $fileSize);

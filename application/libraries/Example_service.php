@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'webclient/WebService.php';
 
 /**
- * User: RN
+ * User: Ray N
  * Date: 8/2/2017
  * Time: 11:18
  */

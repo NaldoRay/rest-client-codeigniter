@@ -6,7 +6,7 @@ require_once 'WebException.php';
 require_once 'WebResponse.php';
 
 /**
- * User: RN
+ * User: Ray N
  * Date: 5/24/2017
  * Time: 08:19
  */
