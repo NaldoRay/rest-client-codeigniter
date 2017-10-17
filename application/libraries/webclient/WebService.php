@@ -10,11 +10,18 @@ require_once 'WebClient.php';
 class WebService
 {
 	private $webClient;
+	private $baseUrl;
 	
 	public function __construct ($baseUrl)
 	{
 		$this->webClient = new WebClient($baseUrl);
+		$this->baseUrl = $baseUrl;
 	}
+	
+	protected function getEndpointUrl ($uri)
+    {
+        return sprintf('%s%s', $this->baseUrl, $uri);
+    }
 
 	public function attachFile ($name, $filePath)
     {

@@ -17,23 +17,31 @@ class File_viewer
         $this->fileViewer = new FileViewer();
     }
 
-    public function viewFile ($filePath)
+    public function viewFile ($filePath, $renamedFilename = null)
     {
-        $this->fileViewer->viewFile($filePath);
+        $shown = $this->fileViewer->viewFile($filePath, $renamedFilename);
+        if (!$shown)
+            show_404();
     }
 
-    public function viewRemoteFile ($fileUrl)
+    public function viewRemoteFile ($fileUrl, $renamedFilename = null)
     {
-        $this->fileViewer->viewRemoteFile($fileUrl);
+        $shown = $this->fileViewer->viewRemoteFile($fileUrl, $renamedFilename);
+        if (!$shown)
+            show_404();
     }
 
     public function downloadFile ($filePath, $renamedFilename)
     {
-        $this->fileViewer->downloadFile($filePath, $renamedFilename);
+        $shown = $this->fileViewer->downloadFile($filePath, $renamedFilename);
+        if (!$shown)
+            show_404();
     }
 
     public function downloadRemoteFile ($fileUrl, $renamedFilename)
     {
-        $this->fileViewer->downloadRemoteFile($fileUrl, $renamedFilename);
+        $shown = $this->fileViewer->downloadRemoteFile($fileUrl, $renamedFilename);
+        if (!$shown)
+            show_404();
     }
 }

@@ -13,12 +13,16 @@ class FileViewer
 	public function viewImage ($imagePath, $imageNotFoundPath = null)
 	{
 		$shown = $this->view($imagePath);
-		if (!$shown)
-		{
+		if ($shown)
+        {
+            return true;
+        }
+        else
+        {
 		    if (is_null($imageNotFoundPath))
-		        show_404();
+		        return false;
 		    else
-			    $this->viewFile($imageNotFoundPath);
+			    return $this->viewFile($imageNotFoundPath);
 		}
 	}
 
@@ -26,51 +30,39 @@ class FileViewer
     {
         $tmpFilePath = $this->createTemporaryRemoteFile($imageUrl);
         $shown = $this->view($tmpFilePath);
-        if (!$shown)
+        if ($shown)
+        {
+            return true;
+        }
+        else
         {
             if (is_null($imageNotFoundPath))
-                show_404();
+                return false;
             else
-                $this->viewFile($imageNotFoundPath);
+                return $this->viewFile($imageNotFoundPath);
         }
     }
 
     public function viewFile ($filePath, $renamedFilename = null)
 	{
-		$shown = $this->view($filePath, $renamedFilename);
-		if (!$shown)
-		{
-			show_404();
-		}
+		return $this->view($filePath, $renamedFilename);
 	}
 
     public function viewRemoteFile ($fileUrl, $renamedFilename = null)
     {
         $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
-        $shown = $this->view($tmpFilePath, $renamedFilename);
-        if (!$shown)
-        {
-            show_404();
-        }
+        return $this->view($tmpFilePath, $renamedFilename);
     }
 
     public function downloadFile ($filePath, $renamedFilename = null)
 	{
-		$shown = $this->download($filePath, $renamedFilename);
-		if (!$shown)
-		{
-			show_404();
-		}
+		return $this->download($filePath, $renamedFilename);
 	}
 
     public function downloadRemoteFile ($fileUrl, $renamedFilename = null)
     {
         $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
-        $shown = $this->download($tmpFilePath, $renamedFilename);
-        if (!$shown)
-        {
-            show_404();
-        }
+        return $this->download($tmpFilePath, $renamedFilename);
     }
 
     private function createTemporaryRemoteFile ($fileUrl)
