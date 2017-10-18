@@ -73,6 +73,25 @@ class WebService
      * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
      * @throws LogicException
      */
+    public function put ($uri = '', array $params = null)
+    {
+        try
+        {
+            $response = $this->webClient->put($uri, $params);
+            return $this->getResponseBody($response);
+        }
+        catch (WebException $e)
+        {
+            return $this->getErrorBody($e);
+        }
+    }
+
+    /**
+     * @param $uri
+     * @param array|null $params
+     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @throws LogicException
+     */
     public function patch ($uri = '', array $params = null)
     {
         try
