@@ -9,9 +9,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class MY_Controller extends CI_Controller
 {
-    public function __construct ()
+    protected function respondError ($message, $domain = 'Global', $statusCode = 200)
     {
-        parent::__construct();
-        $this->load->helper(['file', 'log']);
+        $response = [
+            'statusCode' => $statusCode,
+            'success' => false,
+            'error' => [
+                'domain' => $domain,
+                'message' => $message
+            ]
+        ];
+        $this->forwardResponse($response);
+    }
+
+    protected function forwardResponse ($response)
+    {
+        $statusCode = (is_array($response) ? $response['statusCode'] : $response->statusCode);
+
+        $this->output->set_status_header($statusCode);
+        $this->output->set_content_type('application/json; charset=utf-8');
+        $this->output->set_output(json_encode($response));
     }
 }
