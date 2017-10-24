@@ -15,8 +15,9 @@ class WebClient
 	private $baseUrl = 'http://localhost/';
 	
     private $auth;
-    private $language;
     private $multipart;
+    private $language;
+    private $headers;
 
 	/**
 		@param $baseUrl harus memiliki trailing slash
@@ -32,6 +33,7 @@ class WebClient
         $this->auth = null;
         $this->multipart = null;
         $this->language = 'en';
+        $this->headers = array();
     }
 
     public function auth ($username, $password)
@@ -60,8 +62,19 @@ class WebClient
 
     public function acceptLanguage ($language)
     {
-        $this->language = $language;
+        $this->setHeader('Accept-Language', $language);
         return $this;
+    }
+
+    public function setHeaders (array $headers)
+    {
+        foreach ($headers as $field => $value)
+            $this->setHeader($field, $value);
+    }
+
+    public function setHeader ($field, $value)
+    {
+        $this->headers[$field] = $value;
     }
 
     /**
@@ -175,8 +188,11 @@ class WebClient
         if ($method !== 'GET')
             $options['headers']['Cache-Control'] = 'no-cache';
 
-        if (!empty($this->language))
-            $options['headers']['Accept-Language'] = $this->language;
+        if (!empty($this->headers))
+        {
+            foreach ($this->headers as $field => $value)
+                $options['headers'][$field] = $value;
+        }
 
         // reset this client request settings
         $this->reset();

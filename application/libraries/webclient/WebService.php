@@ -23,6 +23,12 @@ class WebService
         return sprintf('%s%s', $this->baseUrl, $uri);
     }
 
+    public function setHeader ($field, $value)
+    {
+        $this->webClient->setHeader($field, $value);
+        return $this;
+    }
+
 	public function attachFile ($name, $filePath)
     {
         $this->webClient->attachFile($name, $filePath);
@@ -32,7 +38,7 @@ class WebService
 	/**
      * @param $uri
      * @param array $params
-     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
      * @throws LogicException
      */
     public function get ($uri = '', array $params = null)
@@ -51,7 +57,7 @@ class WebService
     /**
      * @param $uri
      * @param array|null $params
-     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
      * @throws LogicException
      */
     public function post ($uri = '', array $params = null)
@@ -70,7 +76,7 @@ class WebService
     /**
      * @param $uri
      * @param array|null $params
-     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
      * @throws LogicException
      */
     public function put ($uri = '', array $params = null)
@@ -89,7 +95,7 @@ class WebService
     /**
      * @param $uri
      * @param array|null $params
-     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
      * @throws LogicException
      */
     public function patch ($uri = '', array $params = null)
@@ -108,7 +114,7 @@ class WebService
     /**
      * @param $uri
      * @param array|null $params
-     * @return object jika sukses {success: true, data: object|array} , jika gagal {success: false, error: object}
+     * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
      * @throws LogicException
      */
     public function delete ($uri = '', array $params = null)
