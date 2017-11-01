@@ -150,35 +150,37 @@ class WebClient
         $options = [
             'verify' => false
         ];
-        if (is_null($this->multipart))
+        if ($method == 'GET')
         {
             if (!is_null($params))
-            {
-                if ($method == 'GET')
-                {
-                    $options['query'] = $params;
-                }
-                else
-                {
-                    $options['json'] = $params;
-                }
-            }
+                $options['query'] = $params;
         }
         else
         {
-            if (!is_null($params))
+            if (is_null($this->multipart))
             {
-                foreach ($params as $key => $value)
-                {
-                    $this->multipart[] = [
-                        'name' => $key,
-                        'contents' => $value
-                    ];
-                }
+                if (!is_null($params))
+                    $options['json'] = $params;
             }
+            else
+            {
+                if (is_null($params))
+                {
+                    $multipart = $this->multipart;
+                }
+                else
+                {
+                    $multipart = array_merge([
+                        'name' => 'data',
+                        'contents' => json_encode($params),
+                        'headers' => ['Content-Type' => 'application/json; charset=utf-8']
+                    ], $this->multipart);
+                }
 
-            $options['multipart'] = $this->multipart;
+                $options['multipart'] = $multipart;
+            }
         }
+
 
         if (!is_null($this->auth))
         {
