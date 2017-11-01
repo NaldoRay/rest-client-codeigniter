@@ -29,7 +29,13 @@ class WebService
         return $this;
     }
 
-	public function attachFile ($name, $filePath)
+    public function attachUploadedFile ($name, $fileField)
+    {
+        $filePath = $_FILES[$fileField]['tmp_name'];
+        return $this->attachFile($name, $filePath);
+    }
+
+    public function attachFile ($name, $filePath)
     {
         $this->webClient->attachFile($name, $filePath);
         return $this;
