@@ -41,14 +41,28 @@ class WebService
         return $this;
     }
 
-	/**
-     * @param $uri
+    /**
+     * @param string $uri
      * @param array $params
+     * @param array $filters
      * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
+     * on failed {success: false, error: object}
      * @throws LogicException
      */
-    public function get ($uri = '', array $params = null)
+    public function get ($uri = '', array $params = null, array $filters = null)
     {
+        if (!is_null($filters))
+        {
+            if (is_null($params))
+                $params = array();
+
+            foreach ($filters as $key => $value)
+            {
+                $field = sprintf('filters[%s]', $key);
+                $params[$field] = $value;
+            }
+        }
+
         try
         {
             $response = $this->webClient->get($uri, $params);
