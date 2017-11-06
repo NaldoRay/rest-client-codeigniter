@@ -3,9 +3,7 @@
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * User: Ray N
- * Date: 5/24/2017
- * Time: 09:07
+ * @author Ray Naldo
  */
 class WebResponse
 {

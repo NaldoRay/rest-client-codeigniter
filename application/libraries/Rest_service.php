@@ -2,9 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Author: Ray N
- * Date: 10/24/2017
- * Time: 14:49
+ * @author Ray Naldo
  */
 class Rest_service extends WebService
 {

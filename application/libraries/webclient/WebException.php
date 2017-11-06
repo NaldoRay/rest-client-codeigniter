@@ -3,9 +3,7 @@
 require_once 'WebResponse.php';
 
 /**
- * User: Ray N
- * Date: 5/24/2017
- * Time: 09:25
+ * @author Ray Naldo
  */
 class WebException extends Exception
 {
