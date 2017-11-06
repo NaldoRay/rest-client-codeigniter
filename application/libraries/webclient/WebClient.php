@@ -81,7 +81,6 @@ class WebClient
      * @param string $uri
      * @param array $params
      * @return WebResponse
-     * @throws LogicException
      * @throws WebException
      */
     public function get ($uri = '', array $params = null)
@@ -93,7 +92,6 @@ class WebClient
      * @param string $uri
      * @param array|null $params
      * @return WebResponse
-     * @throws LogicException
      * @throws WebException
      */
     public function post ($uri = '', array $params = null)
@@ -105,7 +103,6 @@ class WebClient
      * @param string $uri
      * @param array|null $params
      * @return WebResponse
-     * @throws LogicException
      * @throws WebException
      */
     public function patch ($uri = '', array $params = null)
@@ -117,7 +114,6 @@ class WebClient
      * @param string $uri
      * @param array|null $params
      * @return WebResponse
-     * @throws LogicException
      * @throws WebException
      */
     public function put ($uri = '', array $params = null)
@@ -129,7 +125,6 @@ class WebClient
      * @param string $uri
      * @param array|null $params
      * @return WebResponse
-     * @throws LogicException
      * @throws WebException
      */
     public function delete ($uri = '', array $params = null)
@@ -142,7 +137,6 @@ class WebClient
      * @param $uri
      * @param array|null $params
      * @return WebResponse
-     * @throws LogicException
      * @throws WebException
      */
     private function request ($method, $uri, array $params = null)
@@ -205,6 +199,11 @@ class WebClient
         {
             $response = $client->request($method, $uri, $options);
             return new WebResponse($response);
+        }
+        catch (LogicException $e)
+        {
+            $response = new \GuzzleHttp\Psr7\Response(500, [], '{"error":{"type":"InternalError","message":"'.$e->getMessage().'"}}');
+            throw new WebException(new WebResponse($response));
         }
         catch (RequestException $e)
         {

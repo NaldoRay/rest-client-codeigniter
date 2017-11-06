@@ -47,7 +47,6 @@ class WebService
      * @param array $filters
      * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
      * on failed {success: false, error: object}
-     * @throws LogicException
      */
     public function get ($uri = '', array $params = null, array $filters = null)
     {
@@ -78,7 +77,6 @@ class WebService
      * @param $uri
      * @param array|null $params
      * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
-     * @throws LogicException
      */
     public function post ($uri = '', array $params = null)
     {
@@ -97,7 +95,6 @@ class WebService
      * @param $uri
      * @param array|null $params
      * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
-     * @throws LogicException
      */
     public function put ($uri = '', array $params = null)
     {
@@ -116,7 +113,6 @@ class WebService
      * @param $uri
      * @param array|null $params
      * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
-     * @throws LogicException
      */
     public function patch ($uri = '', array $params = null)
     {
@@ -135,7 +131,6 @@ class WebService
      * @param $uri
      * @param array|null $params
      * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
-     * @throws LogicException
      */
     public function delete ($uri = '', array $params = null)
     {
