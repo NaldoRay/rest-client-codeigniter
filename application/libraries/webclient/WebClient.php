@@ -58,6 +58,26 @@ class WebClient
         return $this;
     }
 
+    /**
+     * Add multipart form-data with Content-Type: application/json
+     * @param string $name
+     * @param array $data
+     * @return $this
+     */
+    public function addJsonFormData ($name, array $data)
+    {
+        if (is_null($this->multipart))
+            $this->multipart = array();
+
+        $this->multipart[] = [
+            'name' => $name,
+            'contents' => json_encode($data),
+            'headers' => ['Content-Type' => 'application/json; charset=utf-8']
+        ];
+
+        return $this;
+    }
+
     public function acceptLanguage ($language)
     {
         $this->setHeader('Accept-Language', $language);
@@ -162,11 +182,16 @@ class WebClient
                 }
                 else
                 {
-                    $multipart = array_merge([
-                        'name' => 'data',
-                        'contents' => json_encode($params),
-                        'headers' => ['Content-Type' => 'application/json; charset=utf-8']
-                    ], $this->multipart);
+                    $multipart = array();
+                    foreach ($params as $key => $value)
+                    {
+                        $multipart[] = [
+                            'name' => $key,
+                            'contents' => $value
+                        ];
+                    }
+                    foreach ($this->multipart as $data)
+                        $multipart[] = $data;
                 }
 
                 $options['multipart'] = $multipart;

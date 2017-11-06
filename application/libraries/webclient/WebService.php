@@ -39,6 +39,12 @@ class WebService
         return $this;
     }
 
+    public function addJsonFormData ($name, array $data)
+    {
+        $this->webClient->addJsonFormData($name, $data);
+        return $this;
+    }
+
     /**
      * @param string $uri
      * @param array $params
