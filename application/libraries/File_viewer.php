@@ -24,7 +24,10 @@ class File_viewer
 
     public function viewRemoteFile ($fileUrl, $renamedFilename = null)
     {
-        $shown = $this->fileViewer->viewRemoteFile($fileUrl, $renamedFilename);
+        $shown = $this->fileUrlExists($fileUrl);
+        if ($shown)
+            $shown = $this->fileViewer->viewRemoteFile($fileUrl, $renamedFilename);
+
         if (!$shown)
             show_404();
     }
@@ -38,8 +41,17 @@ class File_viewer
 
     public function downloadRemoteFile ($fileUrl, $renamedFilename)
     {
-        $shown = $this->fileViewer->downloadRemoteFile($fileUrl, $renamedFilename);
+        $shown = $this->fileUrlExists($fileUrl);
+        if ($shown)
+            $shown = $this->fileViewer->downloadRemoteFile($fileUrl, $renamedFilename);
+
         if (!$shown)
             show_404();
+    }
+
+    private function fileUrlExists ($url)
+    {
+        $headers = get_headers($url);
+        return substr($headers[0], 9, 3) == "200";
     }
 }
