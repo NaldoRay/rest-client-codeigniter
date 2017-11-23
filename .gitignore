@@ -50,3 +50,4 @@ composer.lock
 /webclient.7z
 *.zip
 /user_guide/
+/release/

@@ -47,7 +47,7 @@
       <paths name="Oplos - Dev">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/apps/web-api/client/release" local="$PROJECT_DIR$/release" web="/" />
           </mappings>
         </serverdata>
       </paths>
@@ -73,6 +73,13 @@
         </serverdata>
       </paths>
       <paths name="SI Akademik - Programmer">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="SI Kemal BE">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
