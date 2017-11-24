@@ -59,11 +59,7 @@ class WebService
             if (is_null($params))
                 $params = array();
 
-            foreach ($filters as $key => $value)
-            {
-                $field = sprintf('filters[%s]', $key);
-                $params[$field] = $value;
-            }
+            $params['filters'] = $filters;
         }
 
         try
