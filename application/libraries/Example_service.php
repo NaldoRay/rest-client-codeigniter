@@ -6,16 +6,8 @@ require_once 'webclient/WebService.php';
 /**
  * @author Ray Naldo
  */
-class Example_service extends WebService
+class Example_service extends APP_Localhost_service
 {
-    /**
-     * ExampleService constructor.
-     */
-    public function __construct ()
-    {
-        parent::__construct('http://localhost/api/examples/');
-    }
-
     public function getAllExamples ()
     {
         return $this->get();
@@ -23,7 +15,7 @@ class Example_service extends WebService
 
     public function addExample ($title, $desc)
     {
-        return $this->post('', [
+        return $this->post('examples', [
             'title' => $title,
             'desc' => $desc
         ]);
@@ -31,6 +23,6 @@ class Example_service extends WebService
 
     public function deleteExample ($id)
     {
-        return $this->delete($id);
+        return $this->delete('examples', $id);
     }
 }

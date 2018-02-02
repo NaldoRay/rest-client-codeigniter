@@ -6,14 +6,11 @@ require_once 'Rest_service.php';
 /**
  * @author Ray Naldo
  */
-class Example2_service extends Rest_service
+class Example2_service extends APP_Localhost_service
 {
-    /**
-     * ExampleService constructor.
-     */
     public function __construct ()
     {
-        parent::__construct('http://localhost/api/examples/');
+        parent::__construct('examples2');
     }
 
     public function getAllExamples ()
@@ -23,10 +20,13 @@ class Example2_service extends Rest_service
 
     public function addExample ($title, $desc)
     {
-        return $this->post('', [
-            'title' => $title,
-            'desc' => $desc
-        ]);
+        return $this
+            ->attachUploadedFile('picture', 'userfile')
+            ->addJsonFormData('data', [
+                'title' => $title,
+                'desc' => $desc
+            ])
+            ->post();
     }
 
     public function deleteExample ($id)
