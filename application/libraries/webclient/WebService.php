@@ -29,8 +29,8 @@ class WebService
 
     public function attachUploadedFile ($name, $fileField)
     {
-        $filePath = $_FILES[$fileField]['tmp_name'];
-        return $this->attachFile($name, $filePath);
+        $this->webClient->attachUploadedFile($name, $fileField);
+        return $this;
     }
 
     public function attachFile ($name, $filePath)

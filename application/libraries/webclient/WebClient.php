@@ -40,6 +40,17 @@ class WebClient
         return $this;
     }
 
+    public function attachUploadedFile ($name, $fileField)
+    {
+        if (isset($_FILES[ $fileField ]))
+        {
+            $filePath = $_FILES[ $fileField ]['tmp_name'];
+            if (!empty($filePath))
+                return $this->attachFile($name, $filePath);
+        }
+        return $this;
+    }
+
     /**
      * @param string $name
      * @param string $filePath
@@ -50,9 +61,13 @@ class WebClient
         if (is_null($this->multipart))
             $this->multipart = array();
 
+        $info = new finfo(FILEINFO_MIME_TYPE);
+        $contentType = $info->file($filePath);
+
         $this->multipart[] = [
             'name' => $name,
-            'contents' => fopen($filePath, 'r')
+            'contents' => fopen($filePath, 'r'),
+            'headers' => ['Content-Type' => $contentType]
         ];
 
         return $this;
