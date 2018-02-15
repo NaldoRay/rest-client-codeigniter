@@ -9,7 +9,7 @@ function groupJsonArray (arr, groupFields)
 			var fieldName = groupFields[i];
 			var groupValue = row[fieldName];
 			
-			let initProperty = !group.hasOwnProperty(groupValue);
+			var initProperty = !group.hasOwnProperty(groupValue);
 			if (i == (groupFields.length-1))
 			{
 				if (initProperty)
