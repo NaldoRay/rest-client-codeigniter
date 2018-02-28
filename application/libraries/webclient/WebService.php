@@ -48,20 +48,11 @@ class WebService
     /**
      * @param string $uri
      * @param array $params
-     * @param array $filters
-     * @return object on success {success: true, data: object|array}, on failed {success: false, error: object}
+     * @return object response object: on success {success: true, data: object|array}, on failed {success: false, error: object}
      * on failed {success: false, error: object}
      */
-    public function get ($uri = '', array $params = null, array $filters = null)
+    public function get ($uri = '', array $params = null)
     {
-        if (!is_null($filters))
-        {
-            if (is_null($params))
-                $params = array();
-
-            $params['filters'] = $filters;
-        }
-
         try
         {
             $response = $this->webClient->get($uri, $params);

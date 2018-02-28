@@ -138,6 +138,17 @@ class WebClient
      * @return WebResponse
      * @throws WebException
      */
+    public function postRaw ($uri = '', array $params = null)
+    {
+        return $this->request('POST', $uri, $params);
+    }
+
+    /**
+     * @param string $uri
+     * @param array|null $params
+     * @return WebResponse
+     * @throws WebException
+     */
     public function patch ($uri = '', array $params = null)
     {
         return $this->request('PATCH', $uri, $params);

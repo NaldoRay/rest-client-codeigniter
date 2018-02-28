@@ -18,8 +18,17 @@ $hook['pre_system'] = function ()
         if (strpos($class, 'APP_') === 0)
         {
             $filePath = sprintf('%score/app/%s.php', APPPATH, $class);
-            if (file_exists($filePath))
-                include_once($filePath);
         }
+        else if (strpos($class, 'Condition') !== false)
+        {
+            $filePath = sprintf('%score/search/%s.php', APPPATH, $class);
+        }
+        else
+        {
+            $filePath = $class . '.php';
+        }
+
+        if (file_exists($filePath))
+            include_once($filePath);
     });
 };

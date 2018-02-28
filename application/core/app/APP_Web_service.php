@@ -1,14 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH.'libraries/webclient/WebService.php';
+require_once APPPATH.'core/MY_Web_service.php';
 
 /**
  * @author Ray Naldo
  */
-class APP_Web_service extends WebService
+class APP_Web_service extends MY_Web_service
 {
     private $inupby = null;
+
 
     public function setInupby ($inupby)
     {
