@@ -1,3 +1,7 @@
+/*
+ * Author: Ray Naldo
+ */
+
 function groupJsonArray (arr, groupFields)
 {
     var groupedArr = new Object();
