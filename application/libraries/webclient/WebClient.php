@@ -61,9 +61,8 @@ class WebClient
         if (is_null($this->multipart))
             $this->multipart = array();
 
-        $info = new finfo(FILEINFO_MIME_TYPE);
-        $contentType = $info->file($filePath);
-
+        $contentType = mime_content_type($filePath);
+        
         $this->multipart[] = [
             'name' => $name,
             'contents' => fopen($filePath, 'r'),
