@@ -39,9 +39,26 @@ class MY_Web_service extends WebService
         return parent::get($uri, $params);
     }
 
-    public function search ($uri, SearchCondition $condition)
+    public function search ($uri, SearchCondition $condition, array $fields = null, array $sorts = null, $limit = -1, $offset = 0)
     {
         $params = json_decode(json_encode($condition), true);
+
+        $queryParams = array();
+        if (!empty($fields))
+            $queryParams['fields'] = implode(',', $fields);
+        if (!empty($sorts))
+            $queryParams['sorts'] = implode(',', $sorts);
+        if ($limit > 0)
+            $queryParams['limit'] = $limit;
+        if ($offset > 0)
+            $queryParams['offset'] = $offset;
+
+        if (!empty($queryParams))
+        {
+            $hasQueryParam = parse_url($uri, PHP_URL_QUERY);
+            $uri .= ($hasQueryParam ? '&' : '?') . http_build_query($queryParams);
+        }
+
         return parent::post($uri, $params);
     }
 }
