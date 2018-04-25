@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH.'core/MY_Web_service.php';
 
 /**
  * @author Ray Naldo
