@@ -16,7 +16,7 @@ class WebService
 		$this->baseUrl = $baseUrl;
 	}
 	
-	protected function getEndpointUrl ($uri)
+	public function getEndpointUrl ($uri)
     {
         return sprintf('%s%s', $this->baseUrl, $uri);
     }
