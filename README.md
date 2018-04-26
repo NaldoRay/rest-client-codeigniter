@@ -24,10 +24,13 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v.2.0.0
++ `MY_Web_service` now has a `WebService` (before was subclass of `WebService`)
++ Refactor get/search parameters to `GetParam` and `SearchParam`
+
 v1.5.0
 + Move general libraries to `application/third_party`
 + Replace `SearchCondition` in `core/search` with `QueryCondition` in `third_party/query` 
-
 
 v1.4.2
 + Fix missing `Content-Type` when uploading file with `PUT`, move `attachUploadedFile` to `WebClient`
