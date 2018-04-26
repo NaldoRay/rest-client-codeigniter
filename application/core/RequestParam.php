@@ -48,6 +48,7 @@ class RequestParam
     public function resetFields ()
     {
         $this->fields = array();
+        return $this;
     }
 
     /**
@@ -60,15 +61,18 @@ class RequestParam
 
     /**
      * @param array $expands
+     * @return $this
      */
-    public function setExpands (array $expands)
+    public function expand (array $expands)
     {
         $this->expands = $expands;
+        return $this;
     }
 
     public function resetExpands ()
     {
         $this->expands = array();
+        return $this;
     }
 
     /**
