@@ -8,8 +8,8 @@ require_once('ComparisonCondition.php');
  */
 class ContainsCondition extends ComparisonCondition
 {
-    public function __construct ($field, $values)
+    public function __construct ($field, $value, $ignoreCase = false)
     {
-        parent::__construct($field, '~', $values);
+        parent::__construct($field, ($ignoreCase ? '~' : '~~'), $value);
     }
 }
