@@ -2,10 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * User: Ray N
- * Date: 5/3/2017
- * Time: 09:30
- * 
+ * @author Ray Naldo
+ * @property MY_Loader $load
  */
 class MY_Controller extends CI_Controller
 {
