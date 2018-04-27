@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH.'libraries/webclient/WebService.php';
+requireClass(WebService::class, 'third_party/webclient/');
+includeClass('*', 'third_party/query/');
 
 /**
  * @author Ray Naldo
@@ -39,7 +40,7 @@ class MY_Web_service extends WebService
         return parent::get($uri, $params);
     }
 
-    public function search ($uri, SearchCondition $condition, array $fields = null, array $sorts = null, $limit = -1, $offset = 0)
+    public function search ($uri, QueryCondition $condition, array $fields = null, array $sorts = null, $limit = -1, $offset = 0)
     {
         $params = json_decode(json_encode($condition), true);
 

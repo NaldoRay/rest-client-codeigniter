@@ -1,10 +1,15 @@
-def versionName = "1.4.2"
+def versionName = "1.5.0"
 
 task release (type: Zip) {
 	from '.'
 	include 'README.md'
-	include 'application/libraries/**'
+	include 'application/config/hooks.php'
 	include 'application/core/**'
+	include 'application/hooks/**'
+	include 'application/helpers/**'
+	include 'application/services/**'
+	include 'application/libraries/**'
+	include 'application/third_party/**'
 	include 'vendor/**'
 	archiveName 'rest-client-' + versionName + '.zip'
 	destinationDir file('release/')

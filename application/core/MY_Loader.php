@@ -56,13 +56,6 @@ class MY_Loader extends CI_Loader
             $object_name = strtolower($service);
 
         if (!isset($CI->$object_name))
-        {
-            $path = sprintf('%sservices/%s.php', APPPATH, $service);
-            require_once($path);
-
             $CI->$object_name = new $service();
-        }
     }
 }
-
-?>

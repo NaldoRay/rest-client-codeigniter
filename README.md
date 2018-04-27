@@ -24,6 +24,11 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v1.5.0
++ Move general libraries to `application/third_party`
++ Replace `SearchCondition` in `core/search` with `QueryCondition` in `third_party/query` 
+
+
 v1.4.2
 + Fix missing `Content-Type` when uploading file with `PUT`, move `attachUploadedFile` to `WebClient`
 + Move `Web_service` library to `core/app`, support same base url for multiple service

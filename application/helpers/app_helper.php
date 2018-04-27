@@ -1,16 +1,50 @@
 <?php
 
 /**
- * Date: 10/18/2017
- * Time: 11:49
+ * Author: Ray Naldo
  */
 
-if (!function_exists('getUsername'))
+if (!function_exists('includeClass'))
 {
-    function getUsername ()
+    /**
+     * @param string $class class name or '*' to include all classes in the directory
+     * @param string $directory with trailing slash, relative to application folder (APPPATH)
+     */
+    function includeClass ($class, $directory = '')
     {
-        // TODO ganti dengan implementasi yang benar
-        return 'username';
+        if ($class == '*')
+        {
+            $directory = APPPATH . $directory . '*.php';
+            foreach (glob($directory) as $filename)
+                include_once($filename);
+        }
+        else
+        {
+            $filePath = sprintf('%s%s.php', APPPATH . $directory, $class);
+            include_once($filePath);
+        }
+    }
+}
+
+if (!function_exists('requireClass'))
+{
+    /**
+     * @param string $class class name or '*' to include all classes in the directory
+     * @param string $directory with trailing slash, relative to application folder (APPPATH)
+     */
+    function requireClass ($class, $directory = '')
+    {
+        if ($class == '*')
+        {
+            $directory = APPPATH . $directory . '*.php';
+            foreach (glob($directory) as $filename)
+                require_once($filename);
+        }
+        else
+        {
+            $filePath = sprintf('%s%s.php', APPPATH . $directory, $class);
+            require_once($filePath);
+        }
     }
 }
 
@@ -42,4 +76,3 @@ if (!function_exists('groupObjectArray'))
         return $groupedArr;
     }
 }
-

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 include_once('System.php');
-require_once('viewer/FileViewer.php');
+requireClass(FileViewer::class, 'third_party/viewer/');
 
 /**
  * @author Ray Naldo
