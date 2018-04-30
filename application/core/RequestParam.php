@@ -37,12 +37,10 @@ class RequestParam
         return $this->fields;
     }
 
-    /**
-     * @param array $fields
-     */
-    public function setFields (array $fields)
+    public function select (array $fields)
     {
         $this->fields = $fields;
+        return $this;
     }
 
     public function resetFields ()
