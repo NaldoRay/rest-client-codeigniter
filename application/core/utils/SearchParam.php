@@ -6,11 +6,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class SearchParam extends RequestParam
 {
-    /** @var SearchCondition */
+    /** @var QueryCondition */
     private $condition;
 
 
-    public static function createSearch (SearchCondition $condition)
+    public static function createSearch (QueryCondition $condition)
     {
         return self::create()->search($condition);
     }
@@ -22,7 +22,7 @@ class SearchParam extends RequestParam
     }
 
     /**
-     * @return SearchCondition
+     * @return QueryCondition
      */
     public function getSearchCondition ()
     {
@@ -30,10 +30,10 @@ class SearchParam extends RequestParam
     }
 
     /**
-     * @param SearchCondition $condition
+     * @param QueryCondition $condition
      * @return $this
      */
-    public function search (SearchCondition $condition)
+    public function search (QueryCondition $condition)
     {
         $this->condition = $condition;
         return $this;

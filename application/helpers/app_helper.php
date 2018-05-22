@@ -48,6 +48,33 @@ if (!function_exists('requireClass'))
     }
 }
 
+if (!function_exists('startsWith'))
+{
+    /**
+     * @param string $string
+     * @param string $prefix
+     * @return bool
+     */
+    function startsWith ($string, $prefix)
+    {
+        return (strpos($string, $prefix, 0) === 0);
+    }
+}
+
+if (!function_exists('endsWith'))
+{
+    /**
+     * @param string $string
+     * @param string $suffix
+     * @return bool
+     */
+    function endsWith ($string, $suffix)
+    {
+        $offset = strlen($string) - strlen($suffix);
+        return (strpos($string, $suffix, $offset) === $offset);
+    }
+}
+
 if (!function_exists('groupObjectArray'))
 {
     function groupObjectArray (array $arr, array $groupFields)
