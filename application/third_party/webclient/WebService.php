@@ -21,6 +21,22 @@ class WebService
         return sprintf('%s%s', $this->baseUrl, $uri);
     }
 
+    public function isResetEachRequest ()
+    {
+        return $this->webClient->isResetEachRequest();
+    }
+
+    public function resetEachRequest ($reset = true)
+    {
+        $this->webClient->resetEachRequest($reset);
+    }
+
+    public function acceptLanguage ($language)
+    {
+        $this->setHeader('Accept-Language', $language);
+        return $this;
+    }
+
     public function setHeader ($field, $value)
     {
         $this->webClient->setHeader($field, $value);

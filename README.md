@@ -24,8 +24,11 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v2.2.0
++ Add method to reset request after each request or not
++ Move accept language definition to `WebService`
 
-v.2.0.0
+v2.0.0
 + `MY_Web_service` now has a `WebService` (before was subclass of `WebService`)
 + Refactor get/search parameters to `GetParam` and `SearchParam`
 

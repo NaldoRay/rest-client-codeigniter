@@ -10,28 +10,21 @@ require_once 'WebResponse.php';
  */
 class WebClient
 {
-	private $baseUrl = 'http://localhost/';
-	
+    private $baseUrl = 'http://localhost/';
+    private $resetEachRequest = true;
+
     private $auth;
     private $multipart;
     private $language;
     private $headers;
 
-	/**
+    /**
 		@param $baseUrl harus memiliki trailing slash
 	*/
     public function __construct ($baseUrl)
     {
 		$this->baseUrl = $baseUrl;
         $this->reset();
-    }
-
-    public function reset ()
-    {
-        $this->auth = null;
-        $this->multipart = null;
-        $this->language = 'en';
-        $this->headers = array();
     }
 
     public function auth ($username, $password)
@@ -89,12 +82,6 @@ class WebClient
             'headers' => ['Content-Type' => 'application/json; charset=utf-8']
         ];
 
-        return $this;
-    }
-
-    public function acceptLanguage ($language)
-    {
-        $this->setHeader('Accept-Language', $language);
         return $this;
     }
 
@@ -239,7 +226,8 @@ class WebClient
         }
 
         // reset this client request settings
-        $this->reset();
+        if ($this->resetEachRequest)
+            $this->reset();
 
 		$uri = $this->baseUrl . $uri;
         $client = new GuzzleHttp\Client();
@@ -261,5 +249,23 @@ class WebClient
 
             throw new WebException(new WebResponse($response));
         }
+    }
+
+    public function isResetEachRequest ()
+    {
+        return $this->resetEachRequest;
+    }
+
+    public function resetEachRequest ($reset = true)
+    {
+        $this->resetEachRequest = $reset;
+    }
+
+    protected function reset ()
+    {
+        $this->auth = null;
+        $this->multipart = null;
+        $this->language = 'en';
+        $this->headers = array();
     }
 }
