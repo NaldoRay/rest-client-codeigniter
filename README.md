@@ -24,6 +24,11 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v2.3.0
++ Remove autoloader from hooks, move autoload logic to `MY_Loader`
++ Move core helper functions  to `core/helpers/core_helper.php`
++ Move `webclient/` and `query/` from `third_party/` to `core/utils/`
+
 v2.2.0
 + Add method to reset request after each request or not
 + Move accept language definition to `WebService`

@@ -11,13 +11,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
-
-/**
- * Author: Ray Naldo
- */
-$hook['pre_system'] = array(
-    'class'    => 'Autoloader',
-    'function' => 'init',
-    'filename' => 'Autoloader.php',
-    'filepath' => 'hooks'
-);
