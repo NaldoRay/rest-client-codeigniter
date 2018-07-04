@@ -24,6 +24,9 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v2.3.1
++ Update dependencies, fix [count on null](`https://github.com/guzzle/guzzle/pull/1686`)
+
 v2.3.0
 + Remove autoloader from hooks, move autoload logic to `MY_Loader`
 + Move core helper functions  to `core/helpers/core_helper.php`
