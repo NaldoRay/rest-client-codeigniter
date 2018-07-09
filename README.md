@@ -24,6 +24,9 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v2.3.2
++ Set WebClient::reset() visibility to public
+
 v2.3.1
 + Update dependencies, fix [count on null](`https://github.com/guzzle/guzzle/pull/1686`)
 

@@ -31,6 +31,11 @@ class MY_Web_service
         $this->webService->resetEachRequest($reset);
     }
 
+    public function reset ()
+    {
+        $this->webService->reset();
+    }
+
     public function acceptLanguage ($language)
     {
         $this->webService->acceptLanguage($language);
