@@ -30,6 +30,7 @@ class MY_Loader extends CI_Loader
 
         // load helper
         include_once(APPPATH.'core/helpers/core_helper.php');
+        include_once(APPPATH.'core/acl/acl_helper.php');
     }
 
     /**

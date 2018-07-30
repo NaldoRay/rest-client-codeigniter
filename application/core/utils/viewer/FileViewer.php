@@ -8,25 +8,25 @@ class FileViewer
 {
     private $tmpFile;
 
-	public function viewImage ($imagePath, $imageNotFoundPath = null)
-	{
-		$shown = $this->view($imagePath);
-		if ($shown)
+    public function viewImage ($imagePath, $imageNotFoundPath = null)
+    {
+        $shown = $this->view($imagePath);
+        if ($shown)
         {
             return true;
         }
         else
         {
-		    if (is_null($imageNotFoundPath))
-		        return false;
-		    else
-			    return $this->viewFile($imageNotFoundPath);
-		}
-	}
+            if (is_null($imageNotFoundPath))
+                return false;
+            else
+                return $this->viewFile($imageNotFoundPath);
+        }
+    }
 
-    public function viewRemoteImage ($imageUrl, $imageNotFoundPath = null)
+    public function viewRemoteImage ($imageUrl, $imageNotFoundPath = null, $caFilePath = null, array $headers = null)
     {
-        $tmpFilePath = $this->createTemporaryRemoteFile($imageUrl);
+        $tmpFilePath = $this->createTemporaryRemoteFile($imageUrl, $caFilePath, $headers);
         $shown = $this->view($tmpFilePath);
         if ($shown)
         {
@@ -42,30 +42,61 @@ class FileViewer
     }
 
     public function viewFile ($filePath, $renamedFilename = null)
-	{
-		return $this->view($filePath, $renamedFilename);
-	}
-
-    public function viewRemoteFile ($fileUrl, $renamedFilename = null)
     {
-        $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
+        return $this->view($filePath, $renamedFilename);
+    }
+
+    public function viewRemoteFile ($fileUrl, $renamedFilename = null, $caFilePath = null, array $headers = null)
+    {
+        $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl, $caFilePath, $headers);
         return $this->view($tmpFilePath, $renamedFilename);
     }
 
     public function downloadFile ($filePath, $renamedFilename = null)
-	{
-		return $this->download($filePath, $renamedFilename);
-	}
-
-    public function downloadRemoteFile ($fileUrl, $renamedFilename = null)
     {
-        $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl);
+        return $this->download($filePath, $renamedFilename);
+    }
+
+    public function downloadRemoteFile ($fileUrl, $renamedFilename = null, $caFilePath = null, array $headers = null)
+    {
+        $tmpFilePath = $this->createTemporaryRemoteFile($fileUrl, $caFilePath, $headers);
         return $this->download($tmpFilePath, $renamedFilename);
     }
 
-    private function createTemporaryRemoteFile ($fileUrl)
+    private function createTemporaryRemoteFile ($fileUrl, $caFilePath = null, array $headers = null)
     {
-        $content = file_get_contents($fileUrl);
+        if (empty($caFilePath))
+        {
+            $contextOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false
+                ]
+            ];
+        }
+        else
+        {
+            $contextOptions = [
+                'ssl' => [
+                    'verify_peer' => true,
+                    'cafile' => $caFilePath
+                ]
+            ];
+        }
+
+        if (!empty($headers))
+        {
+            $httpHeaders = array();
+            foreach ($headers as $key => $value)
+                $httpHeaders[] = sprintf('%s: %s', $key, $value);
+
+            $contextOptions['http'] = [
+                'method' => 'GET',
+                'header' => implode('\\r\\n', $httpHeaders)
+            ];
+        }
+
+        $content = file_get_contents($fileUrl, null, stream_context_create($contextOptions));
         if ($content === false)
             return null;
 
@@ -85,11 +116,13 @@ class FileViewer
             $contentType = $info->file($filePath);
             $fileSize = filesize($filePath);
 
-            if (!empty($renamedFilename))
+            if (empty($renamedFilename))
+                header('Content-Disposition: inline');
+            else
                 header('Content-Disposition: inline; filename="'.$renamedFilename.'"');
 
-            header('Content-type: ' . $contentType);
-            header('Content-length: ' . $fileSize);
+            header('Content-Type: ' . $contentType);
+            header('Content-Length: ' . $fileSize);
             // jangan di-cache
             header('Cache-Control: no-cache, no-store, must-revalidate');
             header('Expires: 0');
@@ -110,8 +143,12 @@ class FileViewer
             $contentType = $info->file($filePath);
             $fileSize = filesize($filePath);
 
+            if (empty($renamedFilename))
+                header('Content-Disposition: attachment');
+            else
+                header('Content-Disposition: attachment; filename="' . $renamedFilename . '"');
+
             header('Content-Type: ' . $contentType);
-            header('Content-Disposition: attachment; filename="' . $renamedFilename . '"');
             header('Content-Length: ' . $fileSize);
             // ga perlu di-cache
             header('Cache-Control: no-cache, no-store, must-revalidate');

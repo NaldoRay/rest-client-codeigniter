@@ -18,12 +18,13 @@ class WebClient
     private $language;
     private $headers;
 
+
     /**
-		@param $baseUrl must have a trailing slash
-	*/
+     * @param $baseUrl must have a trailing slash
+     */
     public function __construct ($baseUrl)
     {
-		$this->baseUrl = $baseUrl;
+        $this->baseUrl = $baseUrl;
         $this->reset();
     }
 
@@ -55,7 +56,7 @@ class WebClient
             $this->multipart = array();
 
         $contentType = mime_content_type($filePath);
-        
+
         $this->multipart[] = [
             'name' => $name,
             'contents' => fopen($filePath, 'r'),
@@ -229,7 +230,7 @@ class WebClient
         if ($this->resetEachRequest)
             $this->reset();
 
-		$uri = $this->baseUrl . $uri;
+        $uri = $this->baseUrl . $uri;
         $client = new GuzzleHttp\Client();
         try
         {

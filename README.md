@@ -24,6 +24,9 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v3.0.0
++ Refactor directories, add acl, support token authorization
+
 v2.3.2
 + Set WebClient::reset() visibility to public
 

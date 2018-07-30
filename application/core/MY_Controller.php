@@ -28,4 +28,17 @@ class MY_Controller extends CI_Controller
         $this->output->set_content_type('application/json; charset=utf-8');
         $this->output->set_output(json_encode($response));
     }
+
+    protected function loadPageView($contentView, array $data = null)
+    {
+        $this->load->view('header');
+        $this->load->view('sidebar');
+        $this->load->view($contentView, $data);
+        $this->load->view('footer');
+    }
+
+    public function logout()
+    {
+        logoutToTheMax(site_url());
+    }
 }
