@@ -21,7 +21,7 @@ class APP_Web_service extends MY_Web_service
 
     public function get ($uri = '', GetParam $param = null)
     {
-        $this->setAuthorizationHeader();
+        $this->setRequestHeaders();
 
         $response = parent::get($uri, $param);
         if ($this->shouldRefreshToken($response))
@@ -31,7 +31,7 @@ class APP_Web_service extends MY_Web_service
             if ($authResponse->success)
             {
                 // resend request with new token
-                $this->setAuthorizationHeader();
+                $this->setRequestHeaders();
                 $response = parent::get($uri, $param);
             }
         }
@@ -42,7 +42,7 @@ class APP_Web_service extends MY_Web_service
 
     public function post ($uri = '', array $params = null)
     {
-        $this->setAuthorizationHeader();
+        $this->setRequestHeaders();
 
         $response = parent::post($uri, $params);
         if ($this->shouldRefreshToken($response))
@@ -52,7 +52,7 @@ class APP_Web_service extends MY_Web_service
             if ($authResponse->success)
             {
                 // resend request with new token
-                $this->setAuthorizationHeader();
+                $this->setRequestHeaders();
                 $response = parent::post($uri, $params);
             }
         }
@@ -63,7 +63,7 @@ class APP_Web_service extends MY_Web_service
 
     public function put ($uri = '', array $params = null)
     {
-        $this->setAuthorizationHeader();
+        $this->setRequestHeaders();
 
         $response = parent::put($uri, $params);
         if ($this->shouldRefreshToken($response))
@@ -73,7 +73,7 @@ class APP_Web_service extends MY_Web_service
             if ($authResponse->success)
             {
                 // resend request with new token
-                $this->setAuthorizationHeader();
+                $this->setRequestHeaders();
                 $response = parent::put($uri, $params);
             }
         }
@@ -84,7 +84,7 @@ class APP_Web_service extends MY_Web_service
 
     public function patch ($uri = '', array $params = null)
     {
-        $this->setAuthorizationHeader();
+        $this->setRequestHeaders();
 
         $response = parent::patch($uri, $params);
         if ($this->shouldRefreshToken($response))
@@ -94,7 +94,7 @@ class APP_Web_service extends MY_Web_service
             if ($authResponse->success)
             {
                 // resend request with new token
-                $this->setAuthorizationHeader();
+                $this->setRequestHeaders();
                 $response = parent::patch($uri, $params);
             }
         }
@@ -105,7 +105,7 @@ class APP_Web_service extends MY_Web_service
 
     public function delete ($uri = '', array $params = null)
     {
-        $this->setAuthorizationHeader();
+        $this->setRequestHeaders();
 
         $response = parent::delete($uri, $params);
         if ($this->shouldRefreshToken($response))
@@ -115,7 +115,7 @@ class APP_Web_service extends MY_Web_service
             if ($authResponse->success)
             {
                 // resend request with new token
-                $this->setAuthorizationHeader();
+                $this->setRequestHeaders();
                 $response = parent::delete($uri, $params);
             }
         }
@@ -143,16 +143,19 @@ class APP_Web_service extends MY_Web_service
         else
             $headers = ['Authorization' => $authorization];
 
-        $this->fileViewer->viewRemoteFile($this->getEndpointUrl($uri), $renamedFilename, $caFilePath, $headers);
+        $this->fileViewer->downloadRemoteFile($this->getEndpointUrl($uri), $renamedFilename, $caFilePath, $headers);
     }
 
-    private function setAuthorizationHeader ()
+    private function setRequestHeaders ()
     {
         $authorization = $this->getAuthorizationHeaderValue();
         if (!is_null($authorization))
         {
             $this->setHeader('Authorization', $authorization);
         }
+
+        $CI =& get_instance();
+        $this->setHeader('X-Client-IP', $CI->input->ip_address());
     }
 
     private function getAuthorizationHeaderValue ()
