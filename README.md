@@ -24,6 +24,9 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v3.1.0
++ Add new function to read and return remote file content: `readRemoteFile()` to `FileViewer`, `File_manager`, and `readFile()` to `APP_Web_service` 
+  
 v3.0.0
 + Refactor directories, add acl, support token authorization
 

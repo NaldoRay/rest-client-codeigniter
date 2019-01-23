@@ -124,35 +124,38 @@ class APP_Web_service extends MY_Web_service
         return $response;
     }
 
-    public function viewFile ($uri = '', $renamedFilename = null, $caFilePath = null)
+    public function viewFile ($uri = '', $renamedFilename = null, array $headers = null, $caFilePath = null)
     {
         $authorization = $this->getAuthorizationHeaderValue();
-        if (is_null($authorization))
-            $headers = null;
-        else
-            $headers = ['Authorization' => $authorization];
+        if (!is_null($authorization))
+            $headers['Authorization'] = $authorization;
 
-        $this->fileViewer->viewRemoteFile($this->getEndpointUrl($uri), $renamedFilename, $caFilePath, $headers);
+        $this->fileViewer->viewRemoteFile($this->getEndpointUrl($uri), $renamedFilename, $headers, $caFilePath);
     }
 
-    public function downloadFile ($uri = '', $renamedFilename = null, $caFilePath = null)
+    public function downloadFile ($uri = '', $renamedFilename = null, array $headers = null, $caFilePath = null)
     {
         $authorization = $this->getAuthorizationHeaderValue();
-        if (is_null($authorization))
-            $headers = null;
-        else
-            $headers = ['Authorization' => $authorization];
+        if (!is_null($authorization))
+            $headers['Authorization'] = $authorization;
 
-        $this->fileViewer->downloadRemoteFile($this->getEndpointUrl($uri), $renamedFilename, $caFilePath, $headers);
+        $this->fileViewer->downloadRemoteFile($this->getEndpointUrl($uri), $renamedFilename, $headers, $caFilePath);
+    }
+
+    public function readFile ($uri = '', array $headers = null, $caFilePath = null)
+    {
+        $authorization = $this->getAuthorizationHeaderValue();
+        if (!is_null($authorization))
+            $headers['Authorization'] = $authorization;
+
+        return $this->fileViewer->readRemoteFile($this->getEndpointUrl($uri), $headers, $caFilePath);
     }
 
     private function setRequestHeaders ()
     {
         $authorization = $this->getAuthorizationHeaderValue();
         if (!is_null($authorization))
-        {
             $this->setHeader('Authorization', $authorization);
-        }
 
         $CI =& get_instance();
         $this->setHeader('X-Client-IP', $CI->input->ip_address());
