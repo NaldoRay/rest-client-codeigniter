@@ -1,16 +1,15 @@
-def versionName = "3.1.0"
+def versionName = "3.2.0"
 
 task release (type: Zip) {
-	from '.'
-	include 'README.md'
-	include 'application/config/hooks.php'
-	include 'application/core/**'
-	include 'application/hooks/**'
-	include 'application/helpers/**'
-	include 'application/services/**'
-	include 'application/libraries/**'
-	include 'application/third_party/**'
-	include 'vendor/**'
+	from('.') {
+        include 'README.md'
+        include '.htaccess'
+        include 'index.php'
+        include 'application/**'
+        exclude 'application/tests/**'
+        include 'system/**'
+        include 'vendor/**'
+    }
 	archiveName 'rest-client-' + versionName + '.zip'
 	destinationDir file('release/')
 }

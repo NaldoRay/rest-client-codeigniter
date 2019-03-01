@@ -24,6 +24,9 @@ $config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 ```
 
 ## Changelog
+v3.2.0
++ Add new methods to view image: `File_manager::viewImage()` and `File_manager::viewRemoteImage()`
+ 
 v3.1.0
 + Add new function to read and return remote file content: `readRemoteFile()` to `FileViewer`, `File_manager`, and `readFile()` to `APP_Web_service` 
   
